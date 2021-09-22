@@ -1,0 +1,26 @@
+name: Vale linting
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+          fetch-depth: 0
+  
+    - name: Vale Linter
+      uses: errata-ai/vale-action@v1.4.2
+      with:
+        debug: true
+        files: all
+        styles: |
+          https://github.com/extenda/docker-vale/releases/download/latest/Extenda.zip
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+

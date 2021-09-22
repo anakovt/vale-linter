@@ -1,1 +1,3 @@
 # vale-linter
+
+tyypos, jsut
