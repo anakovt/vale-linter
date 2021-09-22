@@ -13,8 +13,8 @@ jobs:
       uses: actions/checkout@v2
       with:
           fetch-depth: 0
-  
-    - name: Vale Linter
+
+    - name: Lint natural language with Vale
       uses: errata-ai/vale-action@v1.4.2
       with:
         debug: true
@@ -22,5 +22,16 @@ jobs:
         styles: |
           https://github.com/extenda/docker-vale/releases/download/latest/Extenda.zip
       env:
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Output of Vale job
+      id: status-vale
+      run: |
+       curl \
+        -H "Accept: application/vnd.github.v3+json" \
+        https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs > jobs.json
+        echo "::set-output name=JOB_STATUS::$(cat jobs.json | jq '.jobs[-1].conclusion' | xargs -L 1)"
+
+    - name: Fail
+      if: ${{ steps.status-vale.outputs.JOB_STATUS }} == 'failure'
+      run: exit 1
