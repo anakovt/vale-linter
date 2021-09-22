@@ -33,5 +33,5 @@ jobs:
         echo "::set-output name=JOB_STATUS::$(cat jobs.json | jq '.jobs[-1].conclusion' | xargs -L 1)"
 
     - name: Fail
-      if: ${{ steps.status-vale.outputs.JOB_STATUS }} == 'failure'
+      if: ${{ steps.status-vale.outputs.JOB_STATUS == 'failure' }}
       run: exit 1
