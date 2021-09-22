@@ -1,3 +1,3 @@
 # vale-linter
 
-tyypos, jsut
+prior to
