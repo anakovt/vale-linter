@@ -29,6 +29,7 @@ jobs:
       run: |
        curl \
         -H "Accept: application/vnd.github.v3+json" \
+        -H "Authorization: token ${{ secrets.TOKEN }}" \
         https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs > jobs.json
         echo "::set-output name=JOB_STATUS::$(cat jobs.json | jq '.jobs[-1].conclusion' | xargs -L 1)"
 
